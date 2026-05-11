@@ -173,26 +173,86 @@
 
 
 //indian coins
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// int getMinChange(vector<int> coins , int V){
+//     int ans=0;
+//     int n = coins.size();
+
+//     for(int i=n-1 ; i>=0 && V>0 ; i--){
+//         if(V >= coins[i]){
+//             ans += V / coins[i];
+//             V = V % coins[i];
+//         }
+//     }
+//     cout << ans;
+//     return 0;
+// }
+// int main(){
+//     vector <int> coins = {1,2,5,10,20,50,100,500,2000};
+//     int V = 590;
+//     getMinChange(coins , V);
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+
+//job sequencing problem
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-int getMinChange(vector<int> coins , int V){
-    int ans=0;
-    int n = coins.size();
+class Job{
+public :
+    int idx , deadline ,profit;
+    Job(int idx , int deadline , int profit){
+        this ->idx = idx;
+        this -> deadline = deadline;
+        this->profit = profit;
+    }
+};
 
-    for(int i=n-1 ; i>=0 && V>0 ; i--){
-        if(V >= coins[i]){
-            ans += V / coins[i];
-            V = V % coins[i];
+int maxProfit(vector <pair<int,int>> pairs){
+    int n = pairs.size();
+    vector <Job> jobs;
+    for(int i =0 ; i<n ; i++){
+        jobs.emplace_back(i , pairs[i].first , pairs[i].second);
+    }
+
+    sort(jobs.begin() , jobs.end() , [](Job &a , Job &b){
+        return a.profit > b.profit;
+    });
+
+    cout << "selecting " << jobs[0].idx << endl;
+    int profit = jobs[0].profit;
+    int safe = 2;
+    for(int i =1 ; i<n;i++){
+        if(jobs[i].deadline >= safe){
+            cout << jobs[i].idx << endl;
+            profit += jobs[i].profit;
+            safe++;
         }
     }
-    cout << ans;
-    return 0;
+    cout << profit;
+    return profit;
 }
+
 int main(){
-    vector <int> coins = {1,2,5,10,20,50,100,500,2000};
-    int V = 590;
-    getMinChange(coins , V);
+    int n = 4;
+    vector <pair<int,int>> jobs(n , make_pair(0,0));
+    jobs[0] = make_pair(4,20);
+    jobs[1] = make_pair(1,10);
+    jobs[2] = make_pair(1,40);
+    jobs[3] = make_pair(1,30);
+    maxProfit(jobs);
     return 0;
 }
