@@ -47,12 +47,32 @@ void inorder(Node* root){
     cout << root->data << " ";
     inorder(root->right);
 }
+
+void postorder(Node* root){
+    if(root == NULL){
+        return;
+    }
+
+    
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data << " ";
+}
+
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
     //cout << " root = " << root->data << endl;
+    cout << "Preorder = ";
+    preorder(root);
+    cout << endl;
 
+    cout << "inorder = ";
     inorder(root);
+    cout << endl;
+    
+    cout << "postorder = ";
+    postorder(root);
     cout << endl;
     return 0;
 }
