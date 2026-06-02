@@ -1,4 +1,3 @@
-//build tree from preorder
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -150,10 +149,54 @@ int rootsum(Node* root){
     return leftSum + rightSum + root->data;
 }
 
+//subtree of another tree que
+
+bool isIdentical(Node* root1 , Node* root2){
+    if(root1==NULL && root2==NULL){
+        return true;
+    }else if(root1==NULL || root2==NULL){
+        return false;
+    }
+    
+    if(root1 -> data != root2 -> data){
+        return false;
+    }
+
+    return isIdentical(root1 -> left , root2 -> left)
+        && isIdentical(root1 -> right , root2 -> right);
+}
+bool isSubtree(Node* root , Node* subroot){
+    if(root==NULL && subroot==NULL){
+        return true;
+    }else if(root==NULL || subroot==NULL){
+        return false;
+    }
+
+    if(root->data == subroot-> data){
+        //check identical for subtrees?
+        if(isIdentical(root , subroot)){
+            return true;
+        }
+    }
+
+    int isLeftSubtree = isSubtree(root->left , subroot);
+    if(!isLeftSubtree){
+        return isSubtree(root->right , subroot);
+    }
+    return true;
+
+}
 
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
+
+    Node* subRoot = new Node(2);
+    subRoot->left = new Node(4);
+    subRoot->right = new Node(5);
+
+    cout << "Subtree (yes/no) = " << isSubtree(root , subRoot) << endl;
+
     //cout << " root = " << root->data << endl;
     cout << "Preorder = ";
     preorder(root);
@@ -171,14 +214,11 @@ int main(){
     levelorder(root);
     //cout << endl;
     
-    cout << "height=" << height(root);
-    cout << endl;
+    cout << "height=" << height(root) << endl;
 
-    cout << "count=" << count(root);
-    cout << endl;
+    cout << "count=" << count(root) << endl;
 
-    cout << "sum=" << rootsum(root);
-    cout << endl;
+    cout << "sum=" << rootsum(root) << endl;
 
     cout << "Diameter = " << diam1(root) << endl;
 
