@@ -38,6 +38,7 @@ void preorder(Node* root){
     preorder(root->left);
     preorder(root->right);
 }
+
 void inorder(Node* root){
     if(root == NULL){
         return;
@@ -53,8 +54,6 @@ void postorder(Node* root){
     if(root == NULL){
         return;
     }
-
-    
     postorder(root->left);
     postorder(root->right);
     cout << root->data << " ";
@@ -104,6 +103,33 @@ int height(Node* root){
     return currht;
 }
 
+int diam1(Node* root){
+    if(root == NULL){    //base case (if no root exists)
+        return 0;
+    }
+
+    int currDiam = height(root->left) + height(root->right) + 1;
+    int leftDiam = diam1(root->left);
+    int rightDiam = diam1(root->right);
+    return max(max(leftDiam , rightDiam) , currDiam);
+}
+
+pair<int,int> diam2(Node* root){
+    if(root==NULL){
+        return make_pair(0,0);
+    }
+    //(diameter,height)
+    pair<int,int> leftinfo = diam2(root->left);
+    pair<int,int> rightinfo = diam2(root->right);
+
+    int currDiam = leftinfo.second + rightinfo.second + 1 ;
+    int finalDiam = max(currDiam ,max(leftinfo.first , rightinfo.first));
+    int finalHeight = max(leftinfo.second, rightinfo.second) + 1;
+
+    return make_pair(finalDiam , finalHeight);
+
+}
+
 int count(Node* root){
     if(root==NULL){
         return 0;
@@ -123,8 +149,10 @@ int rootsum(Node* root){
     int rightSum = rootsum(root->right);
     return leftSum + rightSum + root->data;
 }
+
+
 int main(){
-    vector<int> nodes = {1,2,4,-1,-1,5,-1,6,-1,7,-1,-1,3,-1,-1};
+    vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
     //cout << " root = " << root->data << endl;
     cout << "Preorder = ";
@@ -151,5 +179,9 @@ int main(){
 
     cout << "sum=" << rootsum(root);
     cout << endl;
+
+    cout << "Diameter = " << diam1(root) << endl;
+
+    cout << "Diam2 = " << diam2(root).first << endl;
     return 0;
 }
