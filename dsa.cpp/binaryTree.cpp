@@ -317,13 +317,34 @@ int LCA(Node* root , int n1 , int n2){                 // 0(n) , 0(n)
 
     return dist1 + dist2;
  }
+
+ //kth ancestor of node
+ int kthAncestor(Node* root , int node , int k){
+    if(root==NULL){
+        return -1;
+    }
+    if(root->data == node){
+        return 0;
+    }
+    int leftDist = kthAncestor(root->left,node,k);
+    int rightDist = kthAncestor(root->right,node,k);
+    if(leftDist==-1 && rightDist==-1 ){
+        return -1;
+    }
+
+    int validDist = leftDist == -1 ? rightDist : leftDist;
+    if(validDist + 1 == k){
+        cout << root->data << endl;
+
+    }
+    return validDist+1;
+ }
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
     
-    int n1 = 4 , n2 = 5;
-    cout << minDist(root , n1 , n2) << endl;
-    
+    kthAncestor(root , 5 , 2);
+   
     return 0;
 }
 
