@@ -286,12 +286,43 @@ int LCA(Node* root , int n1 , int n2){                 // 0(n) , 0(n)
     }
     return leftLCA = NULL?rightLCA : leftLCA;
  }
+
+ //mini distance betweeen nodes
+ int dist(Node* root , int n){
+    if(root==NULL){
+        return -1;
+    }
+
+    if(root->data == n){
+        return 0;
+    }
+
+    int leftDist = dist(root->left , n);
+    if(leftDist != -1){
+        return leftDist+1;
+
+    }
+    int rightDist = dist(root->right , n);
+    if(rightDist != -1){
+        return rightDist+1;
+
+    }
+    return -1;
+ }
+ int minDist(Node* root , int n1 , int n2){
+    Node* lca = LCA2(root , n1 , n2);
+
+    int dist1 = dist(lca , n1);
+    int dist2 = dist(lca , n2);
+
+    return dist1 + dist2;
+ }
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
     
     int n1 = 4 , n2 = 5;
-    cout << LCA2(root , n1 , n2) -> data << endl;
+    cout << minDist(root , n1 , n2) << endl;
     
     return 0;
 }
