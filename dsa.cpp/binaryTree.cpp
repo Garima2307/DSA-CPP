@@ -217,44 +217,28 @@ void topView(Node* root){
     cout << endl;
 }
 
+//kth level of a tree
+void kthHelper(Node* root , int k , int currLevel){
+    if(root == NULL){
+        return;
+    }
+    if(currLevel == k){
+        cout << root->data << " ";
+        return;
+    }
+    kthHelper(root->left , k , currLevel+1);
+    kthHelper(root->right , k , currLevel+1);
+}
+void kthLevel(Node* root , int k){
+    kthHelper(root , k , 1);
+    cout << endl;
+    
+}
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
-
-    topView(root);
-
-    // Node* subRoot = new Node(2);
-    // subRoot->left = new Node(4);
-    // subRoot->right = new Node(5);
-
-    // cout << "Subtree (yes/no) = " << isSubtree(root , subRoot) << endl;
-
-    // //cout << " root = " << root->data << endl;
-    // cout << "Preorder = ";
-    // preorder(root);
-    // cout << endl;
-
-    // cout << "inorder = ";
-    // inorder(root);
-    // cout << endl;
-
-    // cout << "postorder = ";
-    // postorder(root);
-    // cout << endl;
-
-    // cout << "level order = ";
-    // levelorder(root);
-    // //cout << endl;
+    kthLevel(root , 2);
     
-    // cout << "height=" << height(root) << endl;
-
-    // cout << "count=" << count(root) << endl;
-
-    // cout << "sum=" << rootsum(root) << endl;
-
-    // cout << "Diameter = " << diam1(root) << endl;
-
-    // cout << "Diam2 = " << diam2(root).first << endl;
     return 0;
 }
 
