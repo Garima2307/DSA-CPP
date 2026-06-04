@@ -237,7 +237,7 @@ void kthLevel(Node* root , int k){
 
 //lowest common ancestor
 bool rootToNode(Node* root , int n , vector<int> &path){    //pass by reference so that changes will be made in org path vectors
-    if(root == NULL){
+    if(root == NULL){                                    //o(n)
         return false;
     }
 
@@ -254,7 +254,7 @@ bool rootToNode(Node* root , int n , vector<int> &path){    //pass by reference 
     path.pop_back();
     return false;
 }
-int LCA(Node* root , int n1 , int n2){
+int LCA(Node* root , int n1 , int n2){                 // 0(n) , 0(n)
     vector<int> path1;
     vector<int> path2;
 
@@ -268,14 +268,30 @@ int LCA(Node* root , int n1 , int n2){
         }
         lca = path1[i];
     }
+    return lca;
 }
+ //approach 2 of LCA
+ Node* LCA2(Node* root , int n1 , int n2){
+    if(root == NULL){
+        return NULL;
+    }
+    if(root->data==n1 || root->data==n2){
+        return root;
+    }
+    Node* leftLCA = LCA2(root->left ,n1,n2);
+    Node* rightLCA = LCA2(root->right, n1,n2);
 
+    if(leftLCA!=NULL && rightLCA!=NULL){
+        return root;
+    }
+    return leftLCA = NULL?rightLCA : leftLCA;
+ }
 int main(){
     vector<int> nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
     Node* root = build(nodes);
     
     int n1 = 4 , n2 = 5;
-    cout << LCA(root , n1 , n2) << endl;
+    cout << LCA2(root , n1 , n2) -> data << endl;
     
     return 0;
 }
