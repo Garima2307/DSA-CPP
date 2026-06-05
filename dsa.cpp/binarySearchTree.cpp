@@ -99,17 +99,34 @@ Node* delNode(Node* root , int val){
     }
     return root;                           //just to avoid error, btw this statement is never going to be executed
 }
+
+void printInRange(Node* root , int start , int end){
+    if(root==NULL){
+        return;
+    }
+    if(start<=root->data && root->data<=end){
+        printInRange(root->left , start , end);
+        cout << root->data << " ";
+        printInRange(root->right , start , end);
+    }else if(start > root->data){
+        printInRange(root->right , start , end);
+    }else{
+        printInRange(root->left , start , end);
+    }
+}
 int main(){
     int arr[6] = {5,1,3,4,2,7};
     int arr2[9] = {8,5,3,1,4,6,10,11,14};
     Node* root = buildBST(arr2 , 9);
-    inOrder(root);
-    cout << endl;
+    // inOrder(root);
+    // cout << endl;
 
-    delNode(root , 10);
+    // delNode(root , 10);
 
-    inOrder(root);
-    cout << endl;
+    // inOrder(root);
+    // cout << endl;
+
+    printInRange(root , 5 , 12);
 
     return 0;
 }
