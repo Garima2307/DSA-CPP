@@ -114,6 +114,35 @@ void printInRange(Node* root , int start , int end){
         printInRange(root->left , start , end);
     }
 }
+
+//root to leaf path
+void printPath(Node* root , vector<int> path){
+    for(int i=0 ; i<path.size() ; i++){
+        cout << path[i] << " ";
+    }
+    cout << endl;
+}
+void pathHelper(Node* root , vector<int> &path){
+    if(root == NULL){
+        return;
+    }
+    path.push_back(root->data);
+
+    if(root->left==NULL && root->right==NULL){
+        printPath(root , path);
+        path.pop_back();
+        return;
+    }
+    pathHelper(root->left , path);
+    pathHelper(root->right , path);
+
+    path.pop_back();
+
+}
+void rootToLeafPath(Node* root){
+    vector<int> path;
+    pathHelper(root , path);
+}
 int main(){
     int arr[6] = {5,1,3,4,2,7};
     int arr2[9] = {8,5,3,1,4,6,10,11,14};
@@ -126,7 +155,7 @@ int main(){
     // inOrder(root);
     // cout << endl;
 
-    printInRange(root , 5 , 12);
-
+   // printInRange(root , 5 , 12);
+    rootToLeafPath(root);
     return 0;
 }
