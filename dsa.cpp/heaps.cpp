@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 using namespace std;
 
 class Heap{
@@ -55,18 +56,32 @@ public :
     }
 };
 
-int main(){
-    Heap heap;
-    heap.push(9);
-    heap.push(4);
-    heap.push(8);
-    heap.push(1);
-    heap.push(2);
-    heap.push(5);
+class Student{  //"<" overload for PQ objects
+public:
+    string name;
+    int marks;
 
-    while(!heap.empty()){
-        cout << heap.top() << endl;
-        heap.pop();
+    Student(string name , int marks){
+        this->name = name;
+        this->marks = marks;
+    }
+
+    bool operator < (const Student &obj)const {
+        return this->name < obj.name;
+    }
+};
+
+int main(){
+    priority_queue<Student> pq;
+
+    pq.push(Student("aman" , 85));
+    pq.push(Student("raman" , 45));
+    pq.push(Student("maman" , 15));
+    pq.push(Student("saman" , 95));
+   
+    while(!pq.empty()){
+        cout << pq.top().name << " " << pq.top().marks << endl;
+        pq.pop();
     }
 
 
