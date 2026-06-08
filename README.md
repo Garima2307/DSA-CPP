@@ -16,6 +16,22 @@ This repository contains my Data Structures and Algorithms practice in C++.
 * Maintain consistency through daily practice
 * Track progress using Git and GitHub
 
+## Topics Covered
+
+- Arrays
+- Strings
+- Recursion
+- Sorting Algorithms
+- Linked Lists
+- Stacks
+- Queues
+- Binary Trees
+- Binary Search Trees
+- Heaps
+- Greedy Algorithms
+- Backtracking
+- Bit Manipulation
+  
 ## Tech Stack
 
 * C++
