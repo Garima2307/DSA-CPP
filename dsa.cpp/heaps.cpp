@@ -199,34 +199,92 @@
 
 //CONNECT N ROPES
 
+// #include <iostream>
+// #include <vector>
+// #include <queue>
+// using namespace std;
+
+// int connectNRopes(vector<int> ropes){
+//     priority_queue<int , vector<int> , greater<int>> pq(ropes.begin() , ropes.end()); //0(n)
+//     int cost = 0;
+
+//     while(pq.size() > 1){
+//         int min1 = pq.top();
+//         pq.pop();
+
+//         int min2 = pq.top();
+//         pq.pop();
+
+//         cost += min1 + min2;
+//         pq.push(min1 + min2);
+//     }
+
+//     cout << cost << endl;
+//     return cost;
+// }
+// int main(){
+//     vector<int> ropes = {4,3,2,6};
+    
+//     connectNRopes(ropes);
+
+
+//     return 0;
+// }
+
+
+
+
+
+
+
+//WEAKEST SOLDIER QUE
+
 #include <iostream>
 #include <vector>
 #include <queue>
 using namespace std;
 
-int connectNRopes(vector<int> ropes){
-    priority_queue<int , vector<int> , greater<int>> pq(ropes.begin() , ropes.end()); //0(n)
-    int cost = 0;
+class Row{
+public :
+    int count;
+    int idx;
 
-    while(pq.size() > 1){
-        int min1 = pq.top();
-        pq.pop();
+    Row(int count , int idx){
+        this->count = count;
+        this->idx = idx;
+    }
+    bool operator < (const Row &obj) const{
+        if(this->count == obj.count){
+            return this->idx > obj.idx;
+        }
+        return this->count > obj.count; //min heap
+    }
+};
 
-        int min2 = pq.top();
-        pq.pop();
+void weakestSoldier(vector<vector<int>> matrix , int K){
+    vector<Row> rows;
 
-        cost += min1 + min2;
-        pq.push(min1 + min2);
+    for(int i=0 ; i<matrix.size() ; i++){
+        int count = 0;
+        for(int j=0 ; j<matrix[i].size() && matrix[i][j] == 1 ; j++){
+            count++;
+        }
+        rows.push_back(Row(count , i));
     }
 
-    cout << cost << endl;
-    return cost;
+    priority_queue<Row> pq(rows.begin() , rows.end());
+    for(int i=0 ; i<K ; i++){
+        cout << pq.top().idx << endl;
+        pq.pop();
+    }
 }
-int main(){
-    vector<int> ropes = {4,3,2,6};
-    
-    connectNRopes(ropes);
 
+int main(){
+    vector<vector<int>> matrix = {{1,0,0,0},
+                                  {1,1,1,1},
+                                  {1,0,0,0},
+                                  {1,0,0,0}};
+    weakestSoldier(matrix , 2);
 
     return 0;
 }
