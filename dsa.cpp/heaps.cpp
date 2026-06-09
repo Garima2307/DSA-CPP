@@ -141,51 +141,92 @@
 
 
 //NEARBY CARS
+
+// #include <iostream>
+// #include <vector>
+// #include <queue>
+// using namespace std;
+
+// class Car{
+// public:
+//     int idx;
+//     int carSq; //distSq
+
+//     Car(int idx , int carSq){
+//         this->idx = idx;
+//         this->carSq = carSq;
+//     }
+
+//     bool operator < (const Car &obj)const{
+//         return this->carSq > obj.carSq;  //min heap
+//     }
+// };
+
+// void nearbyCars(vector<pair<int,int>> pos , int k){
+//     //idx , distSq
+//     vector<Car> cars;
+
+//     for(int i=0 ; i<pos.size() ; i++){//0(n)
+//         int distSq = (pos[i].first *pos[i].first ) + (pos[i].second * pos[i].second);
+//         cars.push_back(Car(i , distSq));
+//     }
+
+//     priority_queue<Car> pq(cars.begin() , cars.end());//0(n)
+
+//     for(int i =0 ; i<k ; i++){//0(k*log n + n)
+//         cout << pq.top().idx << endl;
+//         pq.pop();//0(logn)
+//     }
+// }
+// int main(){
+//     vector<pair<int,int>> pos;
+//     pos.push_back(make_pair(3,3));
+//     pos.push_back(make_pair(5,-1));
+//     pos.push_back(make_pair(-2,4));
+
+//     int k = 2;
+    
+//     nearbyCars(pos , k);
+// }
+
+
+
+
+
+
+
+
+
+//CONNECT N ROPES
+
 #include <iostream>
 #include <vector>
 #include <queue>
 using namespace std;
 
-class Car{
-public:
-    int idx;
-    int carSq; //distSq
+int connectNRopes(vector<int> ropes){
+    priority_queue<int , vector<int> , greater<int>> pq(ropes.begin() , ropes.end()); //0(n)
+    int cost = 0;
 
-    Car(int idx , int carSq){
-        this->idx = idx;
-        this->carSq = carSq;
+    while(pq.size() > 1){
+        int min1 = pq.top();
+        pq.pop();
+
+        int min2 = pq.top();
+        pq.pop();
+
+        cost += min1 + min2;
+        pq.push(min1 + min2);
     }
 
-    bool operator < (const Car &obj)const{
-        return this->carSq > obj.carSq;  //min heap
-    }
-};
-
-void nearbyCars(vector<pair<int,int>> pos , int k){
-    //idx , distSq
-    vector<Car> cars;
-
-    for(int i=0 ; i<pos.size() ; i++){//0(n)
-        int distSq = (pos[i].first *pos[i].first ) + (pos[i].second * pos[i].second);
-        cars.push_back(Car(i , distSq));
-    }
-
-    priority_queue<Car> pq(cars.begin() , cars.end());//0(n)
-
-    for(int i =0 ; i<k ; i++){//0(k*log n + n)
-        cout << pq.top().idx << endl;
-        pq.pop();//0(logn)
-    }
+    cout << cost << endl;
+    return cost;
 }
 int main(){
-    vector<pair<int,int>> pos;
-    pos.push_back(make_pair(3,3));
-    pos.push_back(make_pair(5,-1));
-    pos.push_back(make_pair(-2,4));
-
-    int k = 2;
+    vector<int> ropes = {4,3,2,6};
     
-    nearbyCars(pos , k);
+    connectNRopes(ropes);
 
 
+    return 0;
 }
