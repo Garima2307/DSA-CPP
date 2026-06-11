@@ -224,34 +224,260 @@
 
 
 
+// #include <iostream>
+// #include <unordered_set>
+// #include <set>
+// using namespace std;
+
+// int main(){
+//     set<int> s;
+
+//     s.insert(3);
+//     s.insert(7);
+//     s.insert(9);
+//     s.insert(2);
+
+//     s.insert(3);
+
+//     cout << s.size() << endl;
+
+//     s.erase(7);
+
+//     if(s.find(7) != s.end()){
+//         cout << "7 exists\n";
+//     }else{
+//         cout << "7 dont exists\n";
+//     }
+
+//     for(auto el : s){
+//         cout << el << " ";
+//     }
+//     cout << endl;
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+
+//  QUE - majority element
+// #include <iostream>
+// #include <unordered_map>
+// #include <vector>
+// using namespace std;
+
+// void majorityElement(vector<int> nums){
+//     unordered_map<int , int> m;
+
+//     for(int i=0 ; i<nums.size() ; i++){
+//         if(m.count(nums[i])){
+//             m[nums[i]]++;
+//         }else{
+//             m[nums[i]] = 1;
+//         }
+//     }
+
+//     for(pair<int,int> p : m){
+//         if(p.second > nums.size()/3){
+//             cout << p.first << " ";
+//         }
+//     }
+//     cout << endl;
+// }
+
+// int main(){
+//     vector<int> nums = {1,3,2,5,1,3,1,5,1};
+//     vector<int> nums2 = {1,2};
+
+//     majorityElement(nums2);
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+//QUE - valid anagram
+// #include <iostream>
+// #include <unordered_map>
+// #include <vector>
+// #include <string>
+// using namespace std;
+
+// bool validAnagram(string s , string t){
+//     if(s.size() != t.size()){
+//         return false;
+//     }
+//     unordered_map<char , int> freq;
+
+//     for(int i=0 ; i<s.size() ; i++){
+//         if(freq.count(s[i])){
+//             freq[s[i]]++;
+//         }else{
+//             freq[s[i]] = 1;
+//         }
+//     }
+
+//     for(int i=0 ; i<t.size() ; i++){
+//         if(freq.count(t[i])){
+//             freq[t[i]]--;
+//             if(freq[t[i]] == 0){
+//                 freq.erase(t[i]);
+//             }
+//         }else{
+//             return false;
+//         }
+
+//     }
+
+//     return freq.size() == 0;
+
+// }
+
+// int main(){
+//     string s = "race";
+//     string t = "care";
+
+//     cout << validAnagram(s , t) << endl;
+//     return 0;
+// }
+
+
+
+
+
+
+
+//QUE - count distint
+// #include <iostream>
+// #include <unordered_set>
+// #include <vector>
+// #include <string>
+// using namespace std;
+
+// int countDistinct(vector<int> arr){
+//     unordered_set<int> s;
+
+//     for(int i=0 ; i<arr.size() ; i++){
+//         s.insert(arr[i]);
+//     }
+
+//     for(int el : s){
+//         cout << el << " ";
+//     }
+//     cout << endl;
+
+//     return s.size();
+// }
+// int main(){
+//     vector<int> arr = {4,2,3,5,6,1,2,8,7,9,5,6,5,6,2,3,5};
+//     cout << countDistinct(arr)<< endl ;
+
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+
+
+//QUE - union and intersection
+// #include <iostream>
+// #include <unordered_set>
+// #include <vector>
+// #include <string>
+// using namespace std;
+
+// void getunion(vector<int> arr1 , vector<int> arr2){
+//     unordered_set<int> s;
+
+//     for(int el : arr1){
+//         s.insert(el);
+//     }
+//     for(int el : arr2){
+//         s.insert(el);
+//     }
+//     //print union
+//     for(int el : s){
+//         cout << el << " ";
+//     }
+//     cout << endl;
+// }
+
+// void intersection(vector<int> arr1 , vector<int> arr2){
+//     unordered_set<int> s;
+
+//     for(int el : arr1){
+//         s.insert(el);
+//     }
+
+//     for(int el : arr2){
+//         if(s.find(el) != s.end()){ //FOUND
+//             cout << el << " ";
+//             s.erase(el);
+//         }
+//     }
+//     cout << endl;
+
+// }
+
+// int main(){
+//     vector<int> arr1 = {7,3,9};
+//     vector<int> arr2 = {6,3,9,2,9,4};
+
+//     getunion(arr1 , arr2);
+//     intersection(arr1 , arr2);
+
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+
+
+//QUE -  LARGEST SUBARRAY WITH SUM 0
 #include <iostream>
-#include <unordered_set>
-#include <set>
+#include <vector>
+#include <unordered_map>
 using namespace std;
 
+int largestSub(vector<int> arr){
+    unordered_map<int , int> m;
+
+    int sum = 0;
+    int ans = 0;
+
+    for(int j=0 ; j<arr.size() ; j++){
+        sum += arr[j];
+
+        if(m.count(sum)){
+            int currLen = j - m[sum];
+            ans = max(ans , currLen);
+        }else{
+            m[sum] = j;
+        }
+    }
+    return ans;
+}
+
 int main(){
-    set<int> s;
-
-    s.insert(3);
-    s.insert(7);
-    s.insert(9);
-    s.insert(2);
-
-    s.insert(3);
-
-    cout << s.size() << endl;
-
-    s.erase(7);
-
-    if(s.find(7) != s.end()){
-        cout << "7 exists\n";
-    }else{
-        cout << "7 dont exists\n";
-    }
-
-    for(auto el : s){
-        cout << el << " ";
-    }
-    cout << endl;
+    vector<int> arr = {15,-2,2,-8,1,7,10};
+    cout << largestSub(arr) << endl;
     return 0;
 }
